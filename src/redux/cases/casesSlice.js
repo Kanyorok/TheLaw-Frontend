@@ -10,6 +10,8 @@ export const displayCases = createAsyncThunk('cases', async () => {
       case_id: caseName.id,
       case_title: caseName.title,
       description: caseName.description,
+      stakeholders: caseName.stakeholders,
+      status: caseName.status,
       itemNumber: index + 1,
     }));
     return casesDisplay;
@@ -23,7 +25,7 @@ const initialState = {
   loading: 'idle',
 };
 
-const caseSlice = createSlice({
+const casesSlice = createSlice({
   name: 'cases',
   initialState,
   reducers: {},
@@ -45,4 +47,4 @@ const caseSlice = createSlice({
   },
 });
 
-export default caseSlice.reducer;
+export default casesSlice.reducer;
