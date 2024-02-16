@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 
 
 const Specificcase = ({ caseList }) => {
@@ -10,7 +11,9 @@ const Specificcase = ({ caseList }) => {
         {caseList.itemNumber}
       </td>
       <td className="w-1/6 font-bold whitespace-wrap border-b border-r px-6 py-4 dark:border-neutral-500">
-        {caseList.case_title}
+        <Link to={caseList ? `/cases/${caseList.case_id}` : '/services'} className="card-link discover-link">
+          {caseList.case_title}
+        </Link>
       </td>
       <td className="w-3/6 whitespace-wrap border-b border-r px-6 py-4 dark:border-neutral-500">
         {caseList.description}
