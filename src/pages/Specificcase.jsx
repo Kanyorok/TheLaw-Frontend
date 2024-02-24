@@ -19,11 +19,11 @@ const Specificcase = ({ caseList }) => {
         {caseList.description}
       </td>
     <td className="w-3/6 whitespace-wrap border-b border-r px-6 py-4 dark:border-neutral-500">
-        <ul>
-            {caseList.stakeholders.map((stakeholder, index) => (
-                <li key={index}>{index+1}. {stakeholder}</li>
-            ))}
-        </ul>
+      <ul>
+        {caseList.stakeholders && caseList.stakeholders.map((stakeholder, index) => (
+          <li key={index}>{index+1}. {stakeholder}</li>
+        ))}
+      </ul>
     </td>
       <td className="w-3/6 whitespace-wrap border-b border-r px-6 py-4 dark:border-neutral-500">
         {caseList.status}
