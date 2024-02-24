@@ -10,7 +10,7 @@ const initialState = {
   message: '',
 };
 
-export const displayCases = createAsyncThunk('cases', async (_, {rejectWithValue}) => {
+export const displayCases = createAsyncThunk('cases/viewCases', async (_, {rejectWithValue}) => {
   const localUser = JSON.parse(localStorage.getItem('user'));
   const accessToken = localUser && localUser.access_token;
 
@@ -35,6 +35,18 @@ export const displayCases = createAsyncThunk('cases', async (_, {rejectWithValue
   }, 
 );
 
+export const createCase = createAsyncThunk('cases/createService', async (caseData) => {
+  const localUser = JSON.parse(localStorage.getItem('user'));
+  const accessToken = localUser && localUser.access_token;
+
+  const response = await axios.post('http://127.0.0.1:8000/api/cases', caseData, {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
+  return response.data.case;
+});
+
 const casesSlice = createSlice({
   name: 'cases',
   initialState,
@@ -55,6 +67,16 @@ const casesSlice = createSlice({
         state.loading = 'failed to load cases';
         state.error = action.payload;
         state.isError = true;
+      })
+      .addCase(createCase.fulfilled, (state, action) => {
+        state.cases.push(action.payload);
+        state.message = 'Service created successfully';
+        state.isSuccess = true;
+      })
+      .addCase(createCase.rejected, (state, action) => {
+        state.error = action.error.message;
+        state.isSuccess = false;
+        state.message = 'Case was not created successfully';
       });
   },
 });
