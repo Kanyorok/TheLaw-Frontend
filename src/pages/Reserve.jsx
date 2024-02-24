@@ -1,54 +1,113 @@
-import React from 'react'
-import { Button, Form, Row, Col } from 'react-bootstrap';
+import React from "react";
 
 const Reserve = () => {
   return (
     <div className="main-container">
       <section className="reservation-form">
-        <Form >
+        <form>
           <h2 className="mb-5">Reservation Form:</h2>
-          <Row>
-            <Col lg={6} md={7}>
-              <Form.Group className="mb-3" controlId="client_name">
-                <Form.Control required type="text" placeholder="Name of Client" className="form-control" name="client_name" />
-              </Form.Group>
-            </Col>
-            <Col lg={6} md={7}>
-              <Form.Group className="mb-3" controlId="description">
-                <Form.Control required type="text" placeholder="Description" className="form-control" name="description" />
-              </Form.Group>
-            </Col>
-          </Row>
-          <Row>
-            <Col lg={4} md={7}>
-              <Form.Group className="mb-3" controlId="contact">
-                <Form.Control required type="text" placeholder="Contact" className="form-control" name="contact" />
-              </Form.Group>
-            </Col>
-            <Col lg={4} md={7}>
-              <Form.Group className="mb-3" controlId="appointment_date">
-                <Form.Control required type="date" placeholder="Appointment Date" className="form-control" name="appointment_date" />
-              </Form.Group>
-            </Col>
-            <Col lg={4} md={7}>
-              <Form.Group className="mb-3" controlId="serviceId">
-                <Form.Control as="select" required className="form-control" name="service_id">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label
+                htmlFor="name of client"
+                className="block mt-4 mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              >
+                Name of Client
+              </label>
+              <div className="relative">
+                <input
+                  required
+                  type="text"
+                  id="description"
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 py-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  placeholder="Name of Client"
+                />
+              </div>
+            </div>
+            <div>
+              <label
+                htmlFor="description"
+                className="block mt-4 mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              >
+                Description
+              </label>
+              <div className="relative">
+                <input
+                  required
+                  type="text"
+                  id="description"
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 py-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  placeholder="Enter description"
+                />
+              </div>
+            </div>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div>
+              <label
+                htmlFor="contact"
+                className="block mt-4 mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              >
+                Contact
+              </label>
+              <div className="relative">
+                <input
+                  required
+                  type="text"
+                  id="contact"
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 py-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  placeholder="Enter contact details"
+                />
+              </div>
+            </div>
+            <div>
+              <label
+                htmlFor="appointment_date"
+                className="block mt-4 mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              >
+                Appointment Date
+              </label>
+              <div className="relative">
+                <input
+                  required
+                  type="date"
+                  id="appointment_date"
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 py-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                />
+              </div>
+            </div>
+            <div>
+              <label
+                htmlFor="service_id"
+                className="block mt-4 mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              >
+                Select a Service
+              </label>
+              <div className="relative">
+                <select
+                  required
+                  id="service_id"
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 py-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                >
                   <option value="">Select a service</option>
                   <option value="1">Inquiry</option>
                   <option value="2">Regular</option>
                   <option value="3">Premium</option>
-                  <option value="2">Urgent Meeting</option>
-                </Form.Control>
-              </Form.Group>
-            </Col>
-          </Row>
-          <Button variant="primary" className="submit-btn" type="submit">
+                  <option value="4">Urgent Meeting</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <button
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 mt-4 px-4 rounded"
+            type="submit"
+          >
             Submit
-          </Button>
-        </Form>
+          </button>
+        </form>
       </section>
     </div>
   );
-}
+};
 
-export default Reserve
+export default Reserve;
