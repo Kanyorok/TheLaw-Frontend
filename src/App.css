@@ -1,38 +1,63 @@
-.App {
-  text-align: center;
+/* .service-details {
+  padding: 20% 7% !important;
+}*/
+
+.service-details .service-image {
+  width: 100% !important;
+  height: 60vh !important;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.service-details {
+  padding: 5% 7%;
+  color: var(--secondary-color);
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.right-side-details {
+  width: 100%;
+  height: 100vh;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.bigger-stronger-heading {
+  font-size: 2em;
+  font-weight: bold;
+  padding: 5% 0%;
+}
+
+.smaller-min-cost {
+  font-size: 0.8em;
+  padding: 5% 0%;
+}
+
+.service-description {
+  padding: 5% 0%;
+}
+
+.discover-link {
+  text-decoration: none;
+  color: #6297ff;
+  padding: 5% 0%;
+}
+
+.discover-link:hover {
+  color: var(--primary-color);
+}
+
+.reserve-button {
+  width: 60%;
   display: flex;
-  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  justify-content: space-between;
 }
 
-.App-link {
-  color: #61dafb;
+.arrow-icon {
+  margin-left: 5px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.main-container {
+  width: 100vw;
+  min-height: 100vh;
+}
+
+.reservation-form {
+  padding: 5% 15%;
 }
