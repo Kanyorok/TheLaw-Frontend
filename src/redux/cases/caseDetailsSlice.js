@@ -3,11 +3,21 @@ import axios from 'axios';
 
 export const fetchCaseDetails = createAsyncThunk(
   'serviceDetails/fetchCaseDetails',
-  async (caseId) => {
-    const response = await axios.get(
-      `http://127.0.0.1:8000/cases/${caseId}`,
-    );
-    return response.data;
+  async (caseId, {rejectWithValue}) => {
+    const localUser = JSON.parse(localStorage.getItem('user'));
+    const accessToken = localUser && localUser.access_token;
+
+    try {
+      const response = await axios.get(`http://127.0.0.1:8000/api/cases/${caseId}`,{
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+    const casesDisplay = response.data;
+    return casesDisplay;
+    }catch (err) {
+      return rejectWithValue(err.response.data);
+    }
   },
 );
 
