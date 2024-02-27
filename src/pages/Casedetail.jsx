@@ -6,7 +6,6 @@ import { Row, Col} from 'react-bootstrap';
 import { FaRegArrowAltCircleRight } from 'react-icons/fa';
 import homeicon from '../assets/law.png';
 import { fetchCaseDetails } from '../redux/cases/caseDetailsSlice';
-import '../App.css';
 
 const Casedetails = () => {
   const dispatch = useDispatch();
