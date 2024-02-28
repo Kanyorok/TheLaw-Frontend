@@ -2,12 +2,11 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { login } from "../redux/auth/authSlice";
-import { Navigate, useNavigate } from "react-router-dom";
+import { NavLink, Navigate, useNavigate } from "react-router-dom";
 import useToken from "../component/useToken"; // Import the useToken hook
 
 const Login = () => {
   const { token } = useToken();
-   // Use the useToken hook to get the token
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
@@ -107,12 +106,18 @@ const Login = () => {
               >
                 Sign In
               </button>
-              <a
+              <div>
+              <NavLink to="/register"
                 className="inline-block align-baseline font-bold text-sm text-[#5a67d8] hover:text-[#4754b6]"
-                href="#"
+              >
+                Register
+              </NavLink> /
+              <NavLink to="#"
+                className="inline-block align-baseline font-bold text-sm text-[#5a67d8] hover:text-[#4754b6]"
               >
                 Forgot Password?
-              </a>
+              </NavLink>
+              </div>
             </div>
           </form>
         </div>
