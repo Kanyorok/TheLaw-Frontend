@@ -3,7 +3,6 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import authServices from './authService';
 
 const user = JSON.parse(localStorage.getItem('user'));
-const user_reg = JSON.parse(localStorage.getItem('auth_registration'));
 
 const initialState = {
   user: user || null,
@@ -13,9 +12,9 @@ const initialState = {
   message: '',
 };
 
-export const register = createAsyncThunk('Auth/register', async (user_reg, thunkAPI) => {
+export const register = createAsyncThunk('Auth/register', async (user, thunkAPI) => {
   try {
-    return await authServices.register(user_reg);
+    return await authServices.register(user);
   } catch (error) {
     const message = (error.response
         && error.response.data
@@ -40,13 +39,13 @@ export const login = createAsyncThunk('Authentication', async (user, thunkAPI) =
 });
 
 export const logout = createAsyncThunk('auth/logout', async () => {
-  const localuser = JSON.parse(localStorage.getItem('user'));
-  const token = localuser && localuser.Authorization;
+  const localUser = JSON.parse(localStorage.getItem('user'));
+  const accessToken = localUser && localUser.access_token;
 
   try {
-    const response = await axios.delete('http://127.0.0.1:8000/logout', {
+    const response = await axios.get('http://127.0.0.1:8000/api/auth/logout', {
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${accessToken}`,
       },
     });
     if (response.status === 200) {
@@ -54,7 +53,7 @@ export const logout = createAsyncThunk('auth/logout', async () => {
     }
     return null;
   } catch (error) {
-    throw new Error(error.response.data.status.message || 'Logout failed');
+    throw new Error(error.response.data.status || 'Logout failed');
   }
 });
 
@@ -103,6 +102,10 @@ export const authSlice = createSlice({
       })
       .addCase(logout.fulfilled, (state) => {
         state.user = null;
+      })
+      .addCase(logout.rejected, (state, action) => {
+        state.isError = true;
+        state.message = action.payload;
       });
   },
 });

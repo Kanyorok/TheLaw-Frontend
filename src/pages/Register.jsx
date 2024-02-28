@@ -8,12 +8,14 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useDispatch } from "react-redux";
 import { register } from "../redux/auth/authSlice";
+import useToken from "../component/useToken";
 
 const USER_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
 
 const Register = () => {
+  const { token } = useToken();
   const dispatch = useDispatch();
   const userRef = useRef();
   const emailRef = useRef();
@@ -37,9 +39,9 @@ const Register = () => {
   const [matchFocus, setMatchFocus] = useState(false);
   const [errMsg, setErrMsg] = useState("");
 
-  useEffect(() => {
-    userRef.current.focus();
-  }, []);
+  // useEffect(() => {
+  //   userRef.current.focus();
+  // }, []);
 
   useEffect(() => {
     setValidName(USER_REGEX.test(user));
@@ -66,7 +68,7 @@ const Register = () => {
     const v3 = USER_REGEX.test(user);
 
     if (!v1 || !v2 || !v3) {
-      setErrMsg("Invalid user, email or password.");
+      setErrMsg("Invalid user, email, or password.");
       return;
     }
 
@@ -76,25 +78,9 @@ const Register = () => {
       password: password,
       c_password: matchPwd,
     };
+
     try {
-      dispatch(register(userData))
-        .then(() => {
-          navigate("/login");
-          setUser("");
-          setEmail("");
-          setPwd("");
-          setMatchPwd("");
-        })
-        .catch((err) => {
-          if (!err?.response) {
-            setErrMsg("No Server Response");
-          } else if (err.response?.status === 409) {
-            setErrMsg("Username Taken");
-          } else {
-            setErrMsg("Registration Failed");
-          }
-          errRef.current.focus();
-        });
+      dispatch(register(userData));
     } catch (err) {
       if (!err?.response) {
         setErrMsg("No Server Response");
@@ -107,6 +93,11 @@ const Register = () => {
     }
   };
 
+  if (token) {
+    // If user is not authenticated, redirect to a different page (e.g., login page)
+    navigate('/');
+    return null;
+  }
   return (
     <section className="bg-[f4f7ff] py-20 lg:py-[120px]">
       <div className="container mx-auto">
