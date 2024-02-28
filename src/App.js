@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import Header from "./component/Header";
 import Addcase from "./pages/Addcase";
 import Cases from "./pages/Cases";
@@ -8,24 +8,33 @@ import User from "./pages/User";
 import Casedetails from "./pages/Casedetail";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import useToken from "./component/useToken";
+import PrivateRoute from "./component/PrivateRoute";
 
 function App() {
   return (
-    <div>
-      <Router>
+    <Router>
+      <div>
         <Header />
         <Routes>
-          <Route path="/" element={<Cases />} />
-          <Route path="/cases/:id" element={<Casedetails />} />
-          <Route path="/addcases" element={<Addcase />} />
-          <Route path="/reserve" element={<Reserve />} />
-          <Route path="/completecases" element={<Completecase />} />
-          <Route path="/user" element={<User />} />
+          {/* Public routes */}
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          
+          {/* Protected routes */}
+          <Route element={<PrivateRoute/>}>
+            <Route path="/" element={<Cases />} />
+            <Route path="/cases/:id" element={<Casedetails />} />
+            <Route path="/addcases" element={<Addcase />} />
+            <Route path="/reserve" element={<Reserve />} />
+            <Route path="/completecases" element={<Completecase />} />
+            <Route path="/user" element={<User />} />
+          </Route>          
+          {/* Redirect all other URLs to the home page */}
+          <Route path="*" element={<Navigate to="/" />} />
         </Routes>
-      </Router>
-    </div>
+      </div>
+    </Router>
   );
 }
 
