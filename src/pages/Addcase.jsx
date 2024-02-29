@@ -60,7 +60,7 @@ const Addcase = () => {
 
   return (
     <div className="main-container">
-      <section className="reservation-form">
+      <section className="reservation-form mt-4">
         <form className="max-w-md w-full mx-auto" onSubmit={handleSubmit}>
           <div class="relative z-0 w-full mb-5 group">
             <input
