@@ -3,8 +3,10 @@ import { NavLink, useLocation, useNavigate, Link } from "react-router-dom";
 import homeicon from "../assets/law.png";
 import { logout, reset } from "../redux/auth/authSlice";
 import { useDispatch, useSelector } from "react-redux";
+import { Collapse, Dropdown, initTE, } from "tw-elements";
 
 const Header = () => {
+  initTE({ Collapse, Dropdown });
   const loc = useLocation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -12,6 +14,7 @@ const Header = () => {
   const [isCategoriesOpen, setIsCategoriesOpen] = useState(false);
   const [isLogoutOpen, setIsLogoutOpen] = useState(false);
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
+  const [isUserOpen, setUserOpen] = useState(false);
 
   function activeNavLink(path) {
     if (path === loc.pathname) {
@@ -24,6 +27,10 @@ const Header = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
 
+  const toggleUserDropdown = () => {
+    setUserOpen(!isUserOpen);
+  };
+
   const toggleNotification = () => {
     setIsNotificationOpen(!isNotificationOpen);
   };
@@ -33,8 +40,9 @@ const Header = () => {
   };
 
   useEffect(() => {
-    if (loc.pathname !== "/login") {
+    if (loc.pathname !== "/login" && loc.pathname !== "/register") {
       setIsLogoutOpen(true);
+      setIsDropdownOpen(false);
     } else {
       setIsLogoutOpen(false);
     }
@@ -332,8 +340,8 @@ const Header = () => {
                     id="dropdownMenuButton2"
                     role="button"
                     data-te-dropdown-toggle-ref
-                    aria-expanded="false"
-                    onClick={toggleDropdown}
+                    aria-expanded="true"
+                    onClick={toggleUserDropdown}
                   >
                     <img
                       src="https://tecdn.b-cdn.net/img/new/avatars/2.jpg"
@@ -345,7 +353,7 @@ const Header = () => {
                   </NavLink>
                   <ul
                     className={`absolute z-[1000] float-left m-0 hidden min-w-max list-none overflow-hidden rounded-lg border-none bg-white bg-clip-padding text-left text-base shadow-lg dark:bg-neutral-700 [&[data-te-dropdown-show]]:block ${
-                      isDropdownOpen ? "" : "hidden"
+                      isUserOpen ? "" : "hidden"
                     }`}
                     aria-labelledby="dropdownMenuButton2"
                     data-te-dropdown-menu-ref
@@ -365,7 +373,7 @@ const Header = () => {
                         onClick={handleLogout}
                         data-te-dropdown-item-ref
                       >
-                        Another action
+                        Logout
                       </NavLink>
                     </li>
                   </ul>
