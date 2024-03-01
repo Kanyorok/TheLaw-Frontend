@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { toast } from 'react-toastify';
 import { useNavigate } from "react-router";
 import { createCase } from "../redux/cases/casesSlice";
+import { displayCases } from "../redux/cases/casesSlice";
 
 const Addcase = () => {
   const navigate = useNavigate();
@@ -54,6 +55,7 @@ const Addcase = () => {
   useEffect(() => {
     if (isSuccess) {
       toast.success(message);
+      dispatch(displayCases());
       navigate('/');
     }
   }, [isSuccess, message, navigate]);
