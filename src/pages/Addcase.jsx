@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { toast } from 'react-toastify';
 import { useNavigate } from "react-router";
 import { createCase } from "../redux/cases/casesSlice";
+import { displayCases } from "../redux/cases/casesSlice";
 
 const Addcase = () => {
   const navigate = useNavigate();
@@ -54,13 +55,14 @@ const Addcase = () => {
   useEffect(() => {
     if (isSuccess) {
       toast.success(message);
+      dispatch(displayCases());
       navigate('/');
     }
   }, [isSuccess, message, navigate]);
 
   return (
     <div className="main-container">
-      <section className="reservation-form">
+      <section className="reservation-form mt-4">
         <form className="max-w-md w-full mx-auto" onSubmit={handleSubmit}>
           <div class="relative z-0 w-full mb-5 group">
             <input

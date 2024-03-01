@@ -3,7 +3,7 @@ import axios from 'axios';
 
 const initialState = {
   cases: [],
-  loading: 'idle',
+  loading: false,
   isSuccess: false,
   error: null,
   isError: false,
@@ -54,17 +54,17 @@ const casesSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(displayCases.pending, (state) => {
-        state.loading = 'pending';
+        state.loading = true;
       })
       .addCase(displayCases.fulfilled, (state, action) => {
         state.cases = action.payload.map((caseView) => ({
           ...caseView,
           reserved: false,
         }));
-        state.loading = 'Succeeded';
+        state.loading = false;
       })
       .addCase(displayCases.rejected, (state, action) => {
-        state.loading = 'failed to load cases';
+        state.loading = false;
         state.error = action.payload;
         state.isError = true;
       })

@@ -5,7 +5,6 @@ import useToken from './useToken'
 
 const PrivateRoute = () => {
     const { token } = useToken();
-    console.log(token)
   
   return token ? <Outlet/> : <Navigate to='/login'/>
 }

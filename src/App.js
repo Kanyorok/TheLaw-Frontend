@@ -8,7 +8,6 @@ import User from "./pages/User";
 import Casedetails from "./pages/Casedetail";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
-import useToken from "./component/useToken";
 import PrivateRoute from "./component/PrivateRoute";
 
 function App() {
