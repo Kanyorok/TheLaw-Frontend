@@ -2,7 +2,7 @@ import React from "react";
 
 const Reserve = () => {
   return (
-    <div className="main-container">
+    <div className="main-container max-w-6xl mx-auto mt-4">
       <section className="reservation-form">
         <form>
           <h2 className="mb-5">Reservation Form:</h2>
