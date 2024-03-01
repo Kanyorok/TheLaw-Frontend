@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react';
+import { v4 as uuidv4 } from 'uuid';
 import { useDispatch, useSelector } from 'react-redux';
 import { displayCases } from '../redux/cases/casesSlice';
 import Specificcase from './Specificcase';
 import MonthCalendar from '../component/MonthCalendar';
 
 const Cases = () => {
-  const { cases } = useSelector((state) => state.cases);
+  const { cases, loading } = useSelector((state) => state.cases);
   const [currentPage, setCurrentPage] = useState(1);
   const [casesPerPage] = useState(5);
 
@@ -63,9 +64,19 @@ const Cases = () => {
           </tr>
         </thead>
         <tbody>
-          {currentCases.map((caseList) => (
-            <Specificcase key={caseList.case_id} caseList={caseList} />
-          ))}
+          {
+            loading ? (
+              <tr>
+                <td colSpan="5" className="text-center py-4">
+                  Loading...
+                </td>
+              </tr>
+            ) : (
+              currentCases.map((caseList) => (
+                <Specificcase key={caseList.itemNumber || uuidv4()} caseList={caseList} />
+              ))
+            )
+          }
         </tbody>
       </table>
       <div className="flex justify-center">

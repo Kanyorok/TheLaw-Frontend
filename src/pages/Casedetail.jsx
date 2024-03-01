@@ -32,7 +32,7 @@ const Casedetails = () => {
   }
 
   return (
-    <Row className="service-details flex justify-center space-x-10">
+    <Row className="service-details flex justify-center space-x-10 mt-5">
       <Col md={8}>
         <img
           src={homeicon}
