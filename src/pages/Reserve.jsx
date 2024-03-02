@@ -1,12 +1,51 @@
-import { useState, useEffect } from "react";
-import { UseSelector, useDispatch } from "react-redux";
+import { useState, useEffect, useRef } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { createReservation } from "../redux/reservation/reservationSlice";
+import { useNavigate } from "react-router-dom";
 
 const Reserve = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const errRef = useRef();
+  const { isError, isSuccess, message, error, loading } = useSelector((state) => state.reservation);
+  const [reservationData, setReservationData] = useState({
+    client_name: "",
+    description: "",
+    contact: "",
+    appointment_date: "",
+    services: "",
+  });
+  const [errMsg, setErrMsg] = useState("");
+
+  useEffect(() => {
+    if (isSuccess) {
+      setErrMsg(message);
+    }else if(isError){
+      errRef.current.focus();
+      setErrMsg(error.message);
+    }
+  }, [isSuccess, navigate]);
+
+  const handleSubmitReservation = async (e) => {
+    e.preventDefault();
+
+    const formData = {
+      ...reservationData
+    }
+    try{
+      await dispatch(createReservation(formData));
+      setErrMsg(message);
+    }catch(err){
+      errRef.current.focus();
+      setErrMsg(err);
+    }
+    
+  }
+
   return (
     <div className="main-container max-w-6xl mx-auto mt-4">
       <section className="reservation-form">
-        <form>
+        <form onSubmit={handleSubmitReservation}>
           <h2 className="mb-5">Reservation Form:</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
@@ -20,7 +59,9 @@ const Reserve = () => {
                 <input
                   required
                   type="text"
-                  id="description"
+                  id="client_name"
+                  value={reservationData.client_name}
+                  onChange={(e) => setReservationData({ ...reservationData, client_name: e.target.value })}
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 py-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   placeholder="Name of Client"
                 />
@@ -38,6 +79,8 @@ const Reserve = () => {
                   required
                   type="text"
                   id="description"
+                  value={reservationData.description}
+                  onChange={(e) => setReservationData({ ...reservationData, description: e.target.value })}
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 py-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   placeholder="Enter description"
                 />
@@ -57,6 +100,8 @@ const Reserve = () => {
                   required
                   type="text"
                   id="contact"
+                  value={reservationData.contact}
+                  onChange={(e) => setReservationData({ ...reservationData, contact: e.target.value })}
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 py-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   placeholder="Enter contact details"
                 />
@@ -74,6 +119,8 @@ const Reserve = () => {
                   required
                   type="date"
                   id="appointment_date"
+                  value={reservationData.appointment_date}
+                  onChange={(e) => setReservationData({ ...reservationData, appointment_date: e.target.value })}
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 py-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 />
               </div>
@@ -88,7 +135,9 @@ const Reserve = () => {
               <div className="relative">
                 <select
                   required
-                  id="service_id"
+                  id="services"
+                  value={reservationData.services}
+                  onChange={(e) => setReservationData({ ...reservationData, services: e.target.value })}
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 py-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 >
                   <option value="">Select a service</option>
@@ -107,6 +156,7 @@ const Reserve = () => {
             Submit
           </button>
         </form>
+        {loading ? (<p className="text-center mt-4">Loading...</p>) : isError ? ( <p className="text-center mt-4">{error}</p>):(<p className="text-center mt-4">{message}</p>)}
       </section>
     </div>
   );

@@ -14,7 +14,7 @@ export const createReservation = createAsyncThunk('reservation/create', async(re
     const localUser = JSON.parse(localStorage.getItem('user'));
     const accessToken = localUser && localUser.access_token;
 
-    const response = await axios.post('http://127.0.0.1:8000/api/cases', reserveData, {
+    const response = await axios.post('http://127.0.0.1:8000/api/reservations', reserveData, {
         headers: {
             Authorization: `Bearer ${accessToken}`,
         },
@@ -38,7 +38,7 @@ const reservationSlice = createSlice({
                 state.message = 'Reservation created successfully';
             })
             .addCase(createReservation.rejected, (state, action) => {
-                state.error = action.payload;
+                state.error = action.error.message;
                 state.isError = true;
                 state.loading = false;
             });
