@@ -1,13 +1,10 @@
-import { useState, useEffect, useRef } from "react";
+import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { createReservation } from "../redux/reservation/reservationSlice";
-import { useNavigate } from "react-router-dom";
 
 const Reserve = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const errRef = useRef();
-  const { isError, isSuccess, message, error, loading } = useSelector((state) => state.reservation);
+  const { isError, message, error, loading } = useSelector((state) => state.reservation);
   const [reservationData, setReservationData] = useState({
     client_name: "",
     description: "",
@@ -15,16 +12,6 @@ const Reserve = () => {
     appointment_date: "",
     services: "",
   });
-  const [errMsg, setErrMsg] = useState("");
-
-  useEffect(() => {
-    if (isSuccess) {
-      setErrMsg(message);
-    }else if(isError){
-      errRef.current.focus();
-      setErrMsg(error.message);
-    }
-  }, [isSuccess, navigate]);
 
   const handleSubmitReservation = async (e) => {
     e.preventDefault();
