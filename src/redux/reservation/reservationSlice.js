@@ -44,3 +44,5 @@ const reservationSlice = createSlice({
             });
     },
 });
+
+export default reservationSlice.reducer;
