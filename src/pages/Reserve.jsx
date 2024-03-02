@@ -13,20 +13,14 @@ const Reserve = () => {
     services: "",
   });
 
-  const handleSubmitReservation = async (e) => {
+  const handleSubmitReservation = (e) => {
     e.preventDefault();
 
     const formData = {
       ...reservationData
     }
-    try{
-      await dispatch(createReservation(formData));
-      setErrMsg(message);
-    }catch(err){
-      errRef.current.focus();
-      setErrMsg(err);
-    }
-    
+
+    dispatch(createReservation(formData));   
   }
 
   return (
