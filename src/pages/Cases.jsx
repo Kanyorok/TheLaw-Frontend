@@ -6,7 +6,7 @@ import Specificcase from './Specificcase';
 import MonthCalendar from '../component/MonthCalendar';
 
 const Cases = () => {
-  const { cases, loading } = useSelector((state) => state.cases);
+  const { cases, loading, error, isError } = useSelector((state) => state.cases);
   const [currentPage, setCurrentPage] = useState(1);
   const [casesPerPage] = useState(5);
 
@@ -64,19 +64,25 @@ const Cases = () => {
           </tr>
         </thead>
         <tbody>
-          {
-            loading ? (
-              <tr>
-                <td colSpan="5" className="text-center py-4">
-                  Loading...
-                </td>
-              </tr>
-            ) : (
-              currentCases.map((caseList) => (
-                <Specificcase key={caseList.itemNumber || uuidv4()} caseList={caseList} />
-              ))
-            )
-          }
+        {
+  loading ? (
+    <tr>
+      <td colSpan="5" className="text-center py-4">
+        Loading...
+      </td>
+    </tr>
+  ) : isError ? (
+    <tr>
+      <td colSpan="5" className="text-center py-4">
+        {error.message}
+      </td>
+    </tr>
+  ) : (
+    currentCases.map((caseList) => (
+      <Specificcase key={caseList.itemNumber || uuidv4()} caseList={caseList} />
+    ))
+  )
+}
         </tbody>
       </table>
       <div className="flex justify-center">
