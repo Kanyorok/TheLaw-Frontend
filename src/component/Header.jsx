@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { NavLink, useLocation, useNavigate, Link } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import homeicon from "../assets/law.png";
 import { logout, reset } from "../redux/auth/authSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { Collapse, Dropdown, initTE, } from "tw-elements";
+import Search from "./Search";
 
 const Header = () => {
   initTE({ Collapse, Dropdown });
@@ -11,7 +12,6 @@ const Header = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [isCategoriesOpen, setIsCategoriesOpen] = useState(false);
   const [isLogoutOpen, setIsLogoutOpen] = useState(false);
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
   const [isUserOpen, setUserOpen] = useState(false);
@@ -33,10 +33,6 @@ const Header = () => {
 
   const toggleNotification = () => {
     setIsNotificationOpen(!isNotificationOpen);
-  };
-
-  const toggleCategories = () => {
-    setIsCategoriesOpen(!isCategoriesOpen);
   };
 
   useEffect(() => {
@@ -89,9 +85,9 @@ const Header = () => {
                 className="h-7 w-7"
               >
                 <path
-                  fill-rule="evenodd"
+                  fillRule="evenodd"
                   d="M3 6.75A.75.75 0 013.75 6h16.5a.75.75 0 010 1.5H3.75A.75.75 0 013 6.75zM3 12a.75.75 0 01.75-.75h16.5a.75.75 0 010 1.5H3.75A.75.75 0 013 12zm0 5.25a.75.75 0 01.75-.75h16.5a.75.75 0 010 1.5H3.75a.75.75 0 01-.75-.75z"
-                  clip-rule="evenodd"
+                  clipRule="evenodd"
                 />
               </svg>
             </span>
@@ -103,9 +99,8 @@ const Header = () => {
             id="navbarSupportedContent12"
             data-te-collapse-item
           >
-            <a
+            <NavLink
               className="mb-4 cursor-pointer ml-2 mr-5 mt-3 flex items-center text-neutral-900 hover:text-neutral-900 focus:text-neutral-900 dark:text-neutral-200 dark:hover:text-neutral-400 dark:focus:text-neutral-400 lg:mb-0 lg:mt-0"
-              Link
               to="/"
             >
               <img
@@ -115,7 +110,7 @@ const Header = () => {
                 loading="lazy"
               />
               <h1>Lawyer&apos;s Hub</h1>
-            </a>
+            </NavLink>
             <ul
               className="list-style-none mr-auto flex flex-col pl-0 lg:flex-row"
               data-te-navbar-nav-ref
@@ -169,94 +164,7 @@ const Header = () => {
 
           <div className="relative flex items-center">
             <div className="px-6 relative">
-              <form className="max-w-lg mx-auto">
-                <div className="flex">
-                  {/* Dropdown for All categories */}
-                  <button
-                    id="dropdown-button"
-                    onClick={toggleCategories}
-                    className="flex-shrink-0 z-10 inline-flex items-center py-2.5 px-4 text-sm font-medium text-center text-gray-900 bg-gray-100 border border-gray-300 rounded-s-lg hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-gray-700 dark:text-white dark:border-gray-600"
-                    type="button"
-                  >
-                    All categories
-                    <svg
-                      className={`w-2.5 h-2.5 ms-2.5 transition-transform transform ${
-                        isCategoriesOpen ? "rotate-180" : ""
-                      }`}
-                      aria-hidden="true"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 10 6"
-                    >
-                      <path
-                        stroke="currentColor"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="m1 1 4 4 4-4"
-                      />
-                    </svg>
-                  </button>
-                  <div className="relative w-full">
-                    <input
-                      type="search"
-                      id="search-dropdown"
-                      className="block p-2.5 w-full z-20 text-sm text-gray-900 bg-gray-50 rounded-e-lg border-s-gray-50 border-s-2 border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-s-gray-700  dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:border-blue-500"
-                      placeholder="Search..."
-                      required
-                    />
-                    <button
-                      type="submit"
-                      className="absolute top-0 end-0 p-2.5 text-sm font-medium h-full text-black bg-white-700 rounded-e-lg border border-white-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                    >
-                      <svg
-                        className="w-4 h-4"
-                        aria-hidden="true"
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 20 20"
-                      >
-                        <path
-                          stroke="currentColor"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
-                        />
-                      </svg>
-                      <span className="sr-only">Search</span>
-                    </button>
-                  </div>
-                </div>
-                <div
-                  id="dropdown"
-                  className={`z-10 ${
-                    isCategoriesOpen ? "" : "hidden"
-                  } absolute left-0 mt-2 bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700`}
-                >
-                  <ul
-                    className="py-2 text-sm text-gray-700 dark:text-gray-200"
-                    aria-labelledby="dropdown-button"
-                  >
-                    <li>
-                      <button
-                        type="button"
-                        className="inline-flex w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                      >
-                        Closed Cases
-                      </button>
-                    </li>
-                    <li>
-                      <button
-                        type="button"
-                        className="inline-flex w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                      >
-                        Open Cases
-                      </button>
-                    </li>
-                  </ul>
-                </div>
-              </form>
+              <Search />
             </div>
             <div
               className="relative"
@@ -280,9 +188,9 @@ const Header = () => {
                     className="h-5 w-5"
                   >
                     <path
-                      fill-rule="evenodd"
+                      fillRule="evenodd"
                       d="M5.25 9a6.75 6.75 0 0113.5 0v.75c0 2.123.8 4.057 2.118 5.52a.75.75 0 01-.297 1.206c-1.544.57-3.16.99-4.831 1.243a3.75 3.75 0 11-7.48 0 24.585 24.585 0 01-4.831-1.244.75.75 0 01-.298-1.205A8.217 8.217 0 005.25 9.75V9zm4.502 8.9a2.25 2.25 0 104.496 0 25.057 25.057 0 01-4.496 0z"
-                      clip-rule="evenodd"
+                      clipRule="evenodd"
                     />
                   </svg>
                 </span>

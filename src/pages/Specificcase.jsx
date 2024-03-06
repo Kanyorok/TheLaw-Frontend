@@ -11,7 +11,7 @@ const Specificcase = ({ caseList }) => {
         {caseList.itemNumber}
       </td>
       <td className="w-1/6 font-bold whitespace-wrap border-b border-r px-6 py-4 dark:border-neutral-500">
-        <Link to={caseList ? `/cases/${caseList.case_id}` : '/services'} className="card-link discover-link">
+        <Link to={caseList ? `/cases/${caseList.case_id}` : '/'} className="card-link discover-link">
           {caseList.case_title}
         </Link>
       </td>

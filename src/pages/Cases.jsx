@@ -4,13 +4,18 @@ import { useDispatch, useSelector } from 'react-redux';
 import { displayCases } from '../redux/cases/casesSlice';
 import Specificcase from './Specificcase';
 import MonthCalendar from '../component/MonthCalendar';
+import { useParams } from "react-router-dom";
 
 const Cases = () => {
-  const { cases, loading } = useSelector((state) => state.cases);
+  const { cases, loading, error, isError } = useSelector((state) => state.cases);
   const [currentPage, setCurrentPage] = useState(1);
   const [casesPerPage] = useState(5);
 
   const dispatch = useDispatch();
+  const { keyword } = useParams();
+
+  const Keyword = keyword;
+  console.log(Keyword);
 
   useEffect(() => {
     if (cases.length === 0) {
@@ -64,19 +69,25 @@ const Cases = () => {
           </tr>
         </thead>
         <tbody>
-          {
-            loading ? (
-              <tr>
-                <td colSpan="5" className="text-center py-4">
-                  Loading...
-                </td>
-              </tr>
-            ) : (
-              currentCases.map((caseList) => (
-                <Specificcase key={caseList.itemNumber || uuidv4()} caseList={caseList} />
-              ))
-            )
-          }
+        {
+  loading ? (
+    <tr>
+      <td colSpan="5" className="text-center py-4">
+        Loading...
+      </td>
+    </tr>
+  ) : isError ? (
+    <tr>
+      <td colSpan="5" className="text-center py-4">
+        {error.message}
+      </td>
+    </tr>
+  ) : (
+    currentCases.map((caseList) => (
+      <Specificcase key={caseList.itemNumber || uuidv4()} caseList={caseList} />
+    ))
+  )
+}
         </tbody>
       </table>
       <div className="flex justify-center">
