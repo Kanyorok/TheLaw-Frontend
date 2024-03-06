@@ -22,6 +22,30 @@ export const createReservation = createAsyncThunk('reservation/create', async(re
     return response.data;
 })
 
+export const fetchReservations = createAsyncThunk('reservation/fetch', async(_, {rejectWithValue}) => {
+    const localUser = JSON.parse(localStorage.getItem('user'));
+    const accessToken = localUser && localUser.access_token;
+
+    try {
+        const response = await axios.get('http://127.0.0.1:8000/api/reservations', {
+            headers: {
+                Authorization: `Bearer ${accessToken}`,
+            },
+        });
+        const reservations = response.data.map((reservation, index) => ({
+            id: reservation.id,
+            description: reservation.description,
+            contact: reservation.contact,
+            date: reservation.appointment_date,
+            user_name: reservation.client_name}));
+        return reservations;
+    }catch (err) {
+        return rejectWithValue(err.response.data);
+    }
+},
+);
+
+
 const reservationSlice = createSlice({
     name: 'reservation',
     initialState,
@@ -41,7 +65,19 @@ const reservationSlice = createSlice({
                 state.error = action.error.message;
                 state.isError = true;
                 state.loading = false;
-            });
+            })
+            .addCase(fetchReservations.pending, (state) => {
+                state.loading = true;
+            })
+            .addCase(fetchReservations.fulfilled, (state, action) => {
+                state.reservations = action.payload;
+                state.loading = false;
+            })
+            .addCase(fetchReservations.rejected, (state, action) => {
+                state.error = action.payload;
+                state.isError = true;
+                state.loading = false;
+            })
     },
 });
 
