@@ -9,6 +9,7 @@ import Casedetails from "./pages/Casedetail";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import PrivateRoute from "./component/PrivateRoute";
+import ReserveDetails from "./pages/ReserveDetails";
 
 function App() {
   return (
@@ -24,8 +25,10 @@ function App() {
           <Route element={<PrivateRoute/>}>
             <Route path="/" element={<Cases />} />
             <Route path="/cases/:id" element={<Casedetails />} />
+            <Route path="/Search/:keyword" Component={Cases} />
             <Route path="/addcases" element={<Addcase />} />
             <Route path="/reserve" element={<Reserve />} />
+            <Route path="/reserve/:id" element={<ReserveDetails />} />
             <Route path="/completecases" element={<Completecase />} />
             <Route path="/user" element={<User />} />
           </Route>          
