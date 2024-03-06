@@ -1,7 +1,32 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchReservations } from "../redux/reservation/reservationSlice";
+import { Link } from 'react-router-dom';
 
 const MonthCalendar = () => {
   const [events, setEvents] = useState({});
+  const dispatch = useDispatch();
+  const { reservations, loading, error, isError } = useSelector((state) => state.reservation);
+
+  useEffect(() => {
+    if (reservations.length === 0) {
+      dispatch(fetchReservations());
+    } else {
+      // Populate events with reservations
+      const eventsData = {};
+      reservations.forEach((reservation) => {
+        const date = reservation.date.split(" ")[0];
+        const userName = reservation.user_name;
+        const id = reservation.id;
+        if (!eventsData[date]) {
+          eventsData[date] = [userName];
+        } else {
+          eventsData[date].push(userName);
+        }
+      });
+      setEvents(eventsData);
+    }
+  }, [dispatch, reservations]);
 
   const renderCalendar = (year, month) => {
     const daysInMonth = new Date(year, month + 1, 0).getDate();
@@ -20,28 +45,22 @@ const MonthCalendar = () => {
       const dayEvents = events[currentDate] || [];
 
       calendar.push(
-        <div key={currentDate} className="day" onClick={() => handleAddEvent(currentDate)}>
+        <>
+        <div key={currentDate} className="day">
           <span>{day}</span>
-          {dayEvents.map((event, index) => (
-            <div key={`${currentDate}-${index}`} className="event">
-              {event}
+          {dayEvents.map((userName, index) => (
+            <>
+            <div key={`${currentDate}-${index}`} className="event flex flex-col">
+              {userName}
             </div>
+            </>
           ))}
         </div>
+        </>
       );
     }
 
     return calendar;
-  };
-
-  const handleAddEvent = (date) => {
-    const newEvent = prompt("Enter event for " + date);
-    if (newEvent) {
-      setEvents(prevEvents => ({
-        ...prevEvents,
-        [date]: [...(prevEvents[date] || []), newEvent]
-      }));
-    }
   };
 
   const today = new Date();
