@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { displayCases } from '../redux/cases/casesSlice';
 import Specificcase from './Specificcase';
 import MonthCalendar from '../component/MonthCalendar';
+import { useParams } from "react-router-dom";
 
 const Cases = () => {
   const { cases, loading, error, isError } = useSelector((state) => state.cases);
@@ -11,6 +12,10 @@ const Cases = () => {
   const [casesPerPage] = useState(5);
 
   const dispatch = useDispatch();
+  const { keyword } = useParams();
+
+  const Keyword = keyword;
+  console.log(Keyword);
 
   useEffect(() => {
     if (cases.length === 0) {
