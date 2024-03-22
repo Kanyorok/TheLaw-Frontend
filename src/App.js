@@ -25,7 +25,7 @@ function App() {
           <Route element={<PrivateRoute/>}>
             <Route path="/" element={<Cases />} />
             <Route path="/cases/:id" element={<Casedetails />} />
-            <Route path="/Search/:keyword" Component={Cases} />
+            <Route path="/search/:keyword" Component={Cases} />
             <Route path="/addcases" element={<Addcase />} />
             <Route path="/reserve" element={<Reserve />} />
             <Route path="/reserve/:id" element={<ReserveDetails />} />

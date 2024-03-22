@@ -1,7 +1,7 @@
-import { useState } from "react";
+import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 
-const Search = ({ onSearch }) => {
+const Search = () => {
   const [isCategoriesOpen, setIsCategoriesOpen] = useState(false);
   const [keyword, setKeyword] = useState('');
   const navigate = useNavigate();
@@ -82,6 +82,8 @@ const Search = ({ onSearch }) => {
               <span className="sr-only">Search</span>
             </button>
           </div>
+          <div>
+      </div>
         </div>
         <div
           id="dropdown"
