@@ -7,6 +7,8 @@ import Reserve from "./pages/Reserve";
 import User from "./pages/User";
 import Casedetails from "./pages/Casedetail";
 import Login from "./pages/Login";
+import Deletecase from "./adminpages/Deletecase";
+import Assigncase from "./adminpages/Assigncase";
 import Register from "./pages/Register";
 import PrivateRoute from "./component/PrivateRoute";
 import ReserveDetails from "./pages/ReserveDetails";
@@ -30,6 +32,8 @@ function App() {
             <Route path="/reserve" element={<Reserve />} />
             <Route path="/reserve/:id" element={<ReserveDetails />} />
             <Route path="/completecases" element={<Completecase />} />
+            <Route path="/deletecases" element={<Deletecase />} />
+            <Route path="/assigncases" element={<Assigncase />} />
             <Route path="/user" element={<User />} />
           </Route>          
           {/* Redirect all other URLs to the home page */}

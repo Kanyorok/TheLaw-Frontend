@@ -40,7 +40,7 @@ export const displayCases = createAsyncThunk('cases/viewCases', async ({currentP
     }catch (err) {
       return rejectWithValue(err.response.data);
     }
-  }, 
+  },
 );
 
 export const createCase = createAsyncThunk('cases/createService', async (caseData) => {
