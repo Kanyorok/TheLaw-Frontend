@@ -29,7 +29,7 @@ const Cases = () => {
     setCurrentPage(prevPage => prevPage + 1);
   };
 
-  console.log('current page in component', currentPage);
+  console.log('current keyword in component', Keyword);
 
   return (
     <div className="max-w-6xl mx-auto">
@@ -45,9 +45,29 @@ const Cases = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {cases.map((caseList) => (
-              <Specificcase key={caseList.itemNumber || uuidv4()} caseList={caseList} />
-            ))}
+          {
+            loading ? (
+              <TableRow>
+                <TableCell colSpan="5" className="text-center py-4">
+                  Loading...
+                </TableCell>
+              </TableRow>
+            ) : isError ? (
+              <TableRow>
+                <TableCell colSpan="5" className="text-center py-4">
+                  {error.message}
+                </TableCell>
+              </TableRow>
+            ) : Keyword ? (
+                cases.map((caseList) => (
+                  <Specificcase key={caseList.itemNumber || uuidv4()} caseList={caseList} />
+                ))
+            ) : (
+              cases.map((caseList) => (
+                <Specificcase key={caseList.itemNumber || uuidv4()} caseList={caseList} />
+              ))
+            )
+          }
           </TableBody>
         </Table>
       </TableContainer>
