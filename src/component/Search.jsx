@@ -1,29 +1,28 @@
 import { useState } from "react";
-import { useNavigate } from 'react-router-dom';
+import axios from "axios";
 
-const Search = ({ onSearch }) => {
+const Search = () => {
   const [isCategoriesOpen, setIsCategoriesOpen] = useState(false);
-  const [keyword, setKeyword] = useState('');
-  const navigate = useNavigate();
+  const [searchQuery, setSearchQuery] = useState('');
+  const [searchResults, setSearchResults] = useState([]);
 
   const toggleCategories = () => {
     setIsCategoriesOpen(!isCategoriesOpen);
   };
 
-  const searchHandler = (e) => {
-    e.preventDefault()
-    
-    if(keyword.trim()){
-      navigate(`/search/${keyword}`)
-    }else{
-      navigate('/')
+  const handleSearch = async () => {
+    try {
+      const response = await axios.get(`/api/cases?q=${searchQuery}`);
+      setSearchResults(response.data);
+    } catch (error) {
+      console.error('Error fetching search results:', error);
+      setSearchResults([]);
     }
-    
-}
+  };
 
   return (
     <>
-      <form onSubmit={searchHandler} className="max-w-lg mx-auto">
+      <form onSubmit={handleSearch} className="max-w-lg mx-auto">
         <div className="flex">
           {/* Dropdown for All categories */}
           <button
@@ -57,7 +56,7 @@ const Search = ({ onSearch }) => {
               id="search-dropdown"
               className="block p-2.5 w-full z-20 text-sm text-gray-900 bg-gray-50 rounded-e-lg border-s-gray-50 border-s-2 border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-s-gray-700  dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:border-blue-500"
               placeholder="Search..."
-              onChange={(e) => setKeyword(e.target.value)}
+              onChange={(e) => setSearchQuery(e.target.value)}
               required
             />
             <button
@@ -82,6 +81,14 @@ const Search = ({ onSearch }) => {
               <span className="sr-only">Search</span>
             </button>
           </div>
+          <div>
+        {searchResults.map((result) => (
+          <div key={result.id}>
+            <h3>{result.title}</h3>
+            <p>{result.description}</p>
+          </div>
+        ))}
+      </div>
         </div>
         <div
           id="dropdown"
