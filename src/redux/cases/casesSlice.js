@@ -36,7 +36,6 @@ export const displayCases = createAsyncThunk('cases/viewCases', async ({currentP
     const lastPage = response.data.last_page;
     const responsePerPage = response.data.per_page
     
-    console.log('The keyword in slice',Keyword);
     return { casesDisplay, lastPage, caseCount, responsePerPage };
     }catch (err) {
       return rejectWithValue(err.response.data);

@@ -29,8 +29,6 @@ const Cases = () => {
     setCurrentPage(prevPage => prevPage + 1);
   };
 
-  console.log('current keyword in component', Keyword);
-
   return (
     <div className="max-w-6xl mx-auto">
       <TableContainer component={Paper}>
