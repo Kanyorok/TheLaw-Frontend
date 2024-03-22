@@ -13,17 +13,16 @@ const initialState = {
   casesCount: null,
 };
 
-export const displayCases = createAsyncThunk('cases/viewCases', async ({currentPage = 1, casesPerPage = 5, keyword = ''}, {rejectWithValue}) => {
+export const displayCases = createAsyncThunk('cases/viewCases', async ({currentPage = 1, casesPerPage = 5, Keyword = ''}, {rejectWithValue}) => {
   const localUser = JSON.parse(localStorage.getItem('user'));
   const accessToken = localUser && localUser.access_token;
 
     try {
-      const response = await axios.get(`http://127.0.0.1:8000/api/cases?page=${currentPage}&per_page=${casesPerPage}&q=${keyword}`, {
+      const response = await axios.get(`http://127.0.0.1:8000/api/cases?page=${currentPage}&per_page=${casesPerPage}&q=${Keyword}`, {
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
     });
-    console.log('current page in slice', currentPage);
     const caseCount = response.data.total;
     const casesDisplay = response.data.data.map((caseName, index) => ({
       case_id: caseName.id,
@@ -37,6 +36,7 @@ export const displayCases = createAsyncThunk('cases/viewCases', async ({currentP
     const lastPage = response.data.last_page;
     const responsePerPage = response.data.per_page
     
+    console.log('The keyword in slice',Keyword);
     return { casesDisplay, lastPage, caseCount, responsePerPage };
     }catch (err) {
       return rejectWithValue(err.response.data);
