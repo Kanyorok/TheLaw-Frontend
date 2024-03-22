@@ -20,7 +20,8 @@ export const displayCases = createAsyncThunk('cases/viewCases', async (_, {rejec
         Authorization: `Bearer ${accessToken}`,
       },
     });
-    const casesDisplay = response.data.map((caseName, index) => ({
+    
+    const casesDisplay = response.data.data.map((caseName, index) => ({
       case_id: caseName.id,
       case_title: caseName.title,
       description: caseName.description,
