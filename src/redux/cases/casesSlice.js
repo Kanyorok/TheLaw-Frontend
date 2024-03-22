@@ -8,19 +8,23 @@ const initialState = {
   error: null,
   isError: false,
   message: '',
+  totalPages: null,
+  resPerPage: null,
+  casesCount: null,
 };
 
-export const displayCases = createAsyncThunk('cases/viewCases', async (_, {rejectWithValue}) => {
+export const displayCases = createAsyncThunk('cases/viewCases', async ({currentPage = 1, casesPerPage = 5, keyword = ''}, {rejectWithValue}) => {
   const localUser = JSON.parse(localStorage.getItem('user'));
   const accessToken = localUser && localUser.access_token;
 
     try {
-      const response = await axios.get('http://127.0.0.1:8000/api/cases', {
+      const response = await axios.get(`http://127.0.0.1:8000/api/cases?page=${currentPage}&per_page=${casesPerPage}&q=${keyword}`, {
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
     });
-    
+    console.log('current page in slice', currentPage);
+    const caseCount = response.data.total;
     const casesDisplay = response.data.data.map((caseName, index) => ({
       case_id: caseName.id,
       case_title: caseName.title,
@@ -29,7 +33,11 @@ export const displayCases = createAsyncThunk('cases/viewCases', async (_, {rejec
       stakeholders: caseName.stakeholders,
       itemNumber: index + 1,
     }));
-    return casesDisplay;
+
+    const lastPage = response.data.last_page;
+    const responsePerPage = response.data.per_page
+    
+    return { casesDisplay, lastPage, caseCount, responsePerPage };
     }catch (err) {
       return rejectWithValue(err.response.data);
     }
@@ -58,10 +66,13 @@ const casesSlice = createSlice({
         state.loading = true;
       })
       .addCase(displayCases.fulfilled, (state, action) => {
-        state.cases = action.payload.map((caseView) => ({
+        state.cases = action.payload.casesDisplay.map((caseView) => ({
           ...caseView,
           reserved: false,
         }));
+        state.totalPages = action.payload.lastPage;
+        state.casesCount = action.payload.caseCount;
+        state.resPerPage = action.payload.responsePerPage;
         state.loading = false;
       })
       .addCase(displayCases.rejected, (state, action) => {

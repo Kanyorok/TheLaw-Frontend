@@ -11,13 +11,15 @@ const Cases = () => {
   const { cases, loading, error, isError, totalPages } = useSelector((state) => state.cases);
   const [currentPage, setCurrentPage] = useState(1);
   const casesPerPage = 5;
+  const { keyword } = useParams();
+  
+  const Keyword = keyword;
 
   const dispatch = useDispatch();
-  const { keyword } = useParams();
 
   useEffect(() => {
-    dispatch(displayCases(currentPage));
-  }, [dispatch, currentPage]);
+    dispatch(displayCases({ currentPage, casesPerPage, Keyword }));
+  }, [dispatch, currentPage, casesPerPage, Keyword]);
 
   const handlePreviousPage = () => {
     setCurrentPage(prevPage => prevPage - 1);
@@ -26,6 +28,8 @@ const Cases = () => {
   const handleNextPage = () => {
     setCurrentPage(prevPage => prevPage + 1);
   };
+
+  console.log('current page in component', currentPage);
 
   return (
     <div className="max-w-6xl mx-auto">
