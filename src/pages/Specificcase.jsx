@@ -33,8 +33,4 @@ const Specificcase = ({ caseList }) => {
   );
 };
 
-Specificcase.propTypes = {
-  caseList: PropTypes.shape().isRequired,
-};
-
 export default Specificcase;

@@ -7,11 +7,11 @@ import Reserve from "./pages/Reserve";
 import User from "./pages/User";
 import Casedetails from "./pages/Casedetail";
 import Login from "./pages/Login";
-import Deletecase from "./adminpages/Deletecase";
-import Assigncase from "./adminpages/Assigncase";
+import Assigncase from "./adminpages/Deletereservations";
 import Register from "./pages/Register";
 import PrivateRoute from "./component/PrivateRoute";
 import ReserveDetails from "./pages/ReserveDetails";
+import Deletereservations from "./adminpages/Deletereservations";
 
 function App() {
   return (
@@ -32,7 +32,8 @@ function App() {
             <Route path="/reserve" element={<Reserve />} />
             <Route path="/reserve/:id" element={<ReserveDetails />} />
             <Route path="/completecases" element={<Completecase />} />
-            <Route path="/deletecases" element={<Deletecase />} />
+            <Route path="/deletereservations" element={<Deletereservations />} />
+            <Route path="/search/reserve/:keyword" Component={Deletereservations} />
             <Route path="/assigncases" element={<Assigncase />} />
             <Route path="/user" element={<User />} />
           </Route>          
