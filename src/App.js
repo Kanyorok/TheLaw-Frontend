@@ -33,6 +33,7 @@ function App() {
             <Route path="/reserve/:id" element={<ReserveDetails />} />
             <Route path="/completecases" element={<Completecase />} />
             <Route path="/deletereservations" element={<Deletereservations />} />
+            <Route path="/search/reserve/:keyword" Component={Deletereservations} />
             <Route path="/assigncases" element={<Assigncase />} />
             <Route path="/user" element={<User />} />
           </Route>          
