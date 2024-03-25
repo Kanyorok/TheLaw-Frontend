@@ -170,10 +170,10 @@ const Header = () => {
                     <li className="mb-4 lg:mb-0 lg:pr-2" data-te-nav-item-ref>
                       <NavLink
                         className={`cursor-pointer py-3 px-4 text-sm font-semibold text-[#3d97ff] ${activeNavLink(
-                          "/deletecases"
+                          "/deletereservations"
                         )}`}
                         data-te-nav-link-ref
-                        to="/deletecases"
+                        to="/deletereservations"
                       >
                         Delete Cases
                       </NavLink>
