@@ -8,6 +8,9 @@ const initialState = {
     error: null,
     isError: false,
     message: "",
+    totalPages: null,
+    resPerPage: null,
+    reserveCount: null,
     };
 
 export const createReservation = createAsyncThunk('reservation/create', async(reserveData) => {
@@ -22,29 +25,35 @@ export const createReservation = createAsyncThunk('reservation/create', async(re
     return response.data;
 })
 
-export const fetchReservations = createAsyncThunk('reservation/fetch', async(_, {rejectWithValue}) => {
+export const fetchReservations = createAsyncThunk('reservation/fetch', async({currentPage = 1, reservationsPerPage = 5, keyword = ''}, {rejectWithValue}) => {
     const localUser = JSON.parse(localStorage.getItem('user'));
     const accessToken = localUser && localUser.access_token;
 
     try {
-        const response = await axios.get('http://127.0.0.1:8000/api/reservations', {
+        const response = await axios.get(`http://127.0.0.1:8000/api/reservations?page=${currentPage}&per_page=${reservationsPerPage}&q=${keyword}`, {
             headers: {
                 Authorization: `Bearer ${accessToken}`,
             },
         });
-        const reservations = response.data.map((reservation, index) => ({
+        const reservationsDisplay = response.data.data.map((reservation, index) => ({
             id: reservation.id,
             description: reservation.description,
             contact: reservation.contact,
             date: reservation.appointment_date,
-            user_name: reservation.client_name}));
-        return reservations;
+            user_name: reservation.client_name,
+            itemNumber: index + 1,
+        }));
+
+            const lastPage = response.data.last_page;
+            const responsePerPage = response.data.per_page;
+            const reservationCount = response.data.total;
+
+        return {reservationsDisplay, lastPage, reservationCount, responsePerPage };
     }catch (err) {
         return rejectWithValue(err.response.data);
     }
 },
 );
-
 
 const reservationSlice = createSlice({
     name: 'reservation',
@@ -70,7 +79,12 @@ const reservationSlice = createSlice({
                 state.loading = true;
             })
             .addCase(fetchReservations.fulfilled, (state, action) => {
-                state.reservations = action.payload;
+                state.reservations = action.payload.reservationsDisplay.map((reserveDisplay) => ({
+                    ...reserveDisplay,
+                }));
+                state.totalPages = action.payload.lastPage;
+                state.resPerPage = action.payload.responsePerPage;
+                state.reserveCount = action.payload.reservationCount;
                 state.loading = false;
             })
             .addCase(fetchReservations.rejected, (state, action) => {
