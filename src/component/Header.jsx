@@ -175,7 +175,7 @@ const Header = () => {
                         data-te-nav-link-ref
                         to="/deletereservations"
                       >
-                        Delete Cases
+                        Delete Reservation
                       </NavLink>
                     </li>
                     <li className="mb-4 lg:mb-0 lg:pr-2" data-te-nav-item-ref>
